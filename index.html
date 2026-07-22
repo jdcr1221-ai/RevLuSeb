@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Shower Luisa & Sebastián</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            color: #4A3525;
+            background-color: #EFE8E0;
+            background-image: url('https://i.imgur.com/4HR1N0e.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            padding: 20px 10px;
+        }
+
+        .mobile-card {
+            width: 100%;
+            max-width: 420px;
+            background-color: rgba(250, 246, 240, 0.94);
+            backdrop-filter: blur(5px);
+            border-radius: 28px;
+            border: 2px solid #E6D7C3;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.18);
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 28px 20px;
+            border-bottom: 1px dashed #E6D7C3;
+            text-align: center;
+        }
+        .section:last-child { border-bottom: none; }
+
+        .badge {
+            background: #E6D7C3;
+            color: #5C4033;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        h1 { font-family: 'Fredoka', cursive; font-size: 30px; color: #4A3525; margin-bottom: 6px; }
+        h2 { font-family: 'Fredoka', cursive; font-size: 22px; color: #4A3525; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        p { font-size: 14px; line-height: 1.5; color: #5C4838; }
+
+        .img-container {
+            width: 100%;
+            background: #FFFFFF;
+            padding: 8px;
+            border-radius: 18px;
+            border: 1px solid #E6D7C3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin: 14px 0;
+        }
+        .img-container img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .baby-text-box {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: left;
+            border: 1px solid #E6D5C3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+        .detail-card { background: #FFFFFF; border-radius: 14px; padding: 12px 8px; border: 1px solid #EFE6DC; }
+        .detail-card.full { grid-column: span 2; background: #FFFDF9; border: 2px dashed #D4A373; }
+
+        .gift-box { background: #FFFFFF; border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; border-left: 4px solid #D4A373; text-align: left; font-size: 13px; }
+        .gift-box.girl { border-color: #E29578; }
+        .gift-box.boy { border-color: #83C5BE; }
+
+        /* SECCIÓN DE VOTACIÓN Y BARRAS */
+        .vote-box { background: #FFFFFF; border-radius: 18px; padding: 18px; border: 1px solid #E6D7C3; text-align: left; }
+        
+        /* BARRAS HORIZONTALES */
+        .bars-container { margin: 15px 0 20px 0; }
+        .bar-group { margin-bottom: 12px; }
+        .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px; color: #4A3525; }
+        .bar-bg { width: 100%; background: #F2EBE4; height: 16px; border-radius: 10px; overflow: hidden; position: relative; }
+        .bar-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+        
+        .bar-fill.girl { background: #E29578; width: 45%; } /* Rosa pastel soft */
+        .bar-fill.boy { background: #83C5BE; width: 35%; }  /* Azul verdoso pastel */
+        .bar-fill.undecided { background: #D4A373; width: 20%; } /* Beige/marrón dorado */
+
+        /* FORMULARIO DE VOTACIÓN */
+        .form-group { margin-top: 12px; }
+        label { font-size: 12px; font-weight: 700; color: #4A3525; display: block; margin-bottom: 4px; }
+        input[type="text"], select { 
+            width: 100%; 
+            padding: 10px 12px; 
+            border-radius: 10px; 
+            border: 1px solid #D5C4B1; 
+            background: #FAF6F0;
+            font-family: inherit; 
+            font-size: 13px; 
+            color: #4A3525;
+            margin-bottom: 10px;
+        }
+        select:focus, input:focus { outline: none; border-color: #8C6D53; background: #FFFFFF; }
+        .submit-btn { width: 100%; background: #8C6D53; color: white; border: none; padding: 12px; border-radius: 20px; font-family: 'Fredoka', cursive; font-size: 15px; cursor: pointer; transition: background 0.3s; }
+        .submit-btn:hover { background: #6C523D; }
+
+        .rsvp-card { background: #FFFFFF; border-radius: 18px; padding: 18px; border: 2px dashed #8C6D53; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="mobile-card">
+
+    <!-- PORTADA -->
+    <section class="section">
+        <span class="badge"><i class="fa-solid fa-heart"></i> ¡Estás Invitado!</span>
+        <h1>✨ ¡Hola mundo! Mi Baby Shower ✨</h1>
+        <p>Una linda aventura está por comenzar y quiero celebrarla contigo desde antes de nacer.</p>
+        <p style="margin-top: 8px;"><strong>Mis Papás: Luisa & Sebastián</strong></p>
+    </section>
+
+    <!-- CARTA BEBÉ - FOTO 1 -->
+    <section class="section">
+        <h2><i class="fa-solid fa-baby"></i> Carta del Bebé</h2>
+        <div class="img-container">
+            <img src="https://i.imgur.com/D18T3xG.jpeg" alt="Ecografía del Bebé">
+        </div>
+        <div class="baby-text-box">
+            <p><em>"¡Hola a todos! Aún me encuentro acurrucadito en la pancita de mi mami recibiendo todo el amor del mundo, pero desde aquí adentro escucho lo emocionados que están mis papás, <strong>Luisa y Sebastián</strong>, por mi llegada. Sé lo importante que eres para nuestra familia y por eso quiero que seas parte de esta gran aventura."</em></p>
+        </div>
+    </section>
+
+    <!-- CARTA BEBÉ - FOTO 2 -->
+    <section class="section">
+        <div class="img-container">
+            <img src="https://i.imgur.com/Z4vh4iR.jpeg" alt="Luisa y Sebastián">
+        </div>
+        <div class="baby-text-box">
+            <p><em>"Mis papás han preparado una tarde mágica llena de juegos, risas y muchas sorpresas en tonos beiges y blancos para celebrar juntos antes de conocernos. ¡Tengo muchísimas ganas de sentir tus abracitos muy pronto!"</em></p>
+        </div>
+    </section>
+
+    <!-- DETALLES -->
+    <section class="section">
+        <h2><i class="fa-solid fa-calendar-days"></i> Detalles del Gran Día</h2>
+        <div class="details-grid">
+            <div class="detail-card">
+                <strong>🗓️ Fecha</strong>
+                <p>29 de Agosto</p>
+            </div>
+            <div class="detail-card">
+                <strong>⏰ Hora</strong>
+                <p>17:30 PM</p>
+            </div>
+            <div class="detail-card full">
+                <strong style="color:#D4A373;">💥 ¡GRAN REVELACIÓN!</strong>
+                <p>19:00 PM Exactas con nuestro humo aéreo ✨ ¡Llega muy puntual!</p>
+            </div>
+            <div class="detail-card full">
+                <strong>📍 Ubicación</strong>
+                <p>Calle Oviedo 533, El Casar de Escalona</p>
+            </div>
+            <div class="detail-card full">
+                <strong>🤍 Código de Vestimenta</strong>
+                <p>Full Blanco</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGALOS -->
+    <section class="section">
+        <h2><i class="fa-solid fa-gift"></i> Guía de Regalos & Pistas</h2>
+        <div class="gift-box girl">
+            <strong>🎀 Si crees que soy Niña:</strong> Trae pañitos húmedos.
+        </div>
+        <div class="gift-box boy">
+            <strong>🧸 Si crees que soy Niño:</strong> Trae pañales.
+        </div>
+        <div class="gift-box">
+            <strong>❓ Si estás Indecis@:</strong> Trae crema para pañal.
+        </div>
+    </section>
+
+    <!-- VOTACIÓN CON BARRAS HORIZONTALES Y FORMULARIO -->
+    <section class="section">
+        <h2><i class="fa-solid fa-chart-simple"></i> ¿Qué crees que seré?</h2>
+        <div class="vote-box">
+            
+            <!-- BARRAS REPRESENTATIVAS -->
+            <div class="bars-container">
+                <!-- Niña -->
+                <div class="bar-group">
+                    <div class="bar-label">
+                        <span>👧 Niña</span>
+                        <span>45%</span>
+                    </div>
+                    <div class="bar-bg">
+                        <div class="bar-fill girl"></div>
+                    </div>
+                </div>
+
+                <!-- Niño -->
+                <div class="bar-group">
+                    <div class="bar-label">
+                        <span>👦 Niño</span>
+                        <span>35%</span>
+                    </div>
+                    <div class="bar-bg">
+                        <div class="bar-fill boy"></div>
+                    </div>
+                </div>
+
+                <!-- Indeciso -->
+                <div class="bar-group">
+                    <div class="bar-label">
+                        <span>🤔 Indecis@</span>
+                        <span>20%</span>
+                    </div>
+                    <div class="bar-bg">
+                        <div class="bar-fill undecided"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAJÓN DE REGISTRO DE VOTO -->
+            <div class="form-group">
+                <label>Tu Nombre:</label>
+                <input type="text" placeholder="Ej: María Pérez">
+
+                <label>Tu Elección / Predicción:</label>
+                <select>
+                    <option value="" disabled selected>Selecciona tu opción...</option>
+                    <option value="girl">👧 ¡Es Niña!</option>
+                    <option value="boy">👦 ¡Es Niño!</option>
+                    <option value="undecided">🤔 Estoy Indecis@</option>
+                </select>
+
+                <button class="submit-btn">Registrar mi Voto 🗳️</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONFIRMACIÓN -->
+    <section class="section">
+        <div class="rsvp-card">
+            <h3 style="font-family:'Fredoka'; font-size:18px; margin-bottom:8px; color:#4A3525;">🐾 Un aviso de mi parte</h3>
+            <p style="font-size:13px; color:#5C4838;">Para que mis papás puedan preparar todos los recuerditos, las cositas ricas y los lugares con mucho amor, por favor confirma tu asistencia con <strong>previo aviso</strong> avisándole directamente a mi mami <strong>Luisa</strong> o a mi papi <strong>Sebastián</strong>. ¡Contamos contigo!</p>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
