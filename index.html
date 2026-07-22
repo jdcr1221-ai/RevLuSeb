@@ -19,32 +19,32 @@
             background-attachment: fixed;
             display: flex;
             justify-content: center;
-            padding: 30px 15px; /* Más espacio alrededor de la tarjeta */
+            padding: 30px 15px;
         }
 
-        /* TARJETA PRINCIPAL (EFECTO CRISTAL TRANSLÚCIDO) */
+        /* TARJETA PRINCIPAL CON ALTA TRANSPARENCIA */
         .mobile-card {
             width: 100%;
             max-width: 420px;
-            background-color: rgba(250, 246, 240, 0.75); /* Transparencia aumentada (de 0.94 a 0.75) para ver los conejitos */
-            backdrop-filter: blur(8px); /* Blur para dar un toque elegante y que se entrevea el fondo */
-            -webkit-backdrop-filter: blur(8px);
+            background-color: rgba(250, 246, 240, 0.35); /* Transparencia muy alta para ver los conejitos */
+            backdrop-filter: blur(3px); /* Desenfoque mínimo para ver el dibujo claro */
+            -webkit-backdrop-filter: blur(3px);
             border-radius: 28px;
-            border: 2px solid rgba(230, 215, 195, 0.9);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             overflow: hidden;
             position: relative;
         }
 
         .section {
             padding: 28px 20px;
-            border-bottom: 1px dashed rgba(230, 215, 195, 0.8);
+            border-bottom: 1px dashed rgba(92, 64, 51, 0.2);
             text-align: center !important;
         }
         .section:last-child { border-bottom: none; }
 
         .badge {
-            background: #E6D7C3;
+            background: rgba(230, 215, 195, 0.9);
             color: #5C4033;
             padding: 5px 14px;
             border-radius: 20px;
@@ -54,19 +54,20 @@
             display: inline-block;
             margin-bottom: 10px;
             text-align: center !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        h1 { font-family: 'Fredoka', cursive; font-size: 30px; color: #4A3525; margin-bottom: 6px; text-align: center !important; }
-        h2 { font-family: 'Fredoka', cursive; font-size: 22px; color: #4A3525; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center !important; }
-        p { font-size: 14px; line-height: 1.5; color: #4A3525; text-align: center !important; }
+        h1 { font-family: 'Fredoka', cursive; font-size: 30px; color: #4A3525; margin-bottom: 6px; text-align: center !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+        h2 { font-family: 'Fredoka', cursive; font-size: 22px; color: #4A3525; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+        p { font-size: 14px; line-height: 1.5; color: #3D2B1F; text-align: center !important; }
 
         .img-container {
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 8px;
             border-radius: 18px;
             border: 1px solid #E6D7C3;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             margin: 14px 0;
         }
         .img-container img {
@@ -78,27 +79,27 @@
         }
 
         .baby-text-box {
-            background: rgba(255, 255, 255, 0.88); /* Fondo ligeramente denso para facilitar la lectura del texto */
+            background: rgba(255, 255, 255, 0.92);
             border-radius: 16px;
             padding: 16px;
             text-align: center !important;
             border: 1px solid #E6D5C3;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .baby-text-box p {
             text-align: center !important;
         }
 
         .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-        .detail-card { background: rgba(255, 255, 255, 0.9); border-radius: 14px; padding: 12px 8px; border: 1px solid #EFE6DC; text-align: center !important; }
+        .detail-card { background: rgba(255, 255, 255, 0.92); border-radius: 14px; padding: 12px 8px; border: 1px solid #EFE6DC; text-align: center !important; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
         .detail-card.full { grid-column: span 2; background: rgba(255, 253, 249, 0.95); border: 2px dashed #D4A373; text-align: center !important; }
 
-        .gift-box { background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; border-left: 4px solid #D4A373; text-align: center !important; font-size: 13px; }
+        .gift-box { background: rgba(255, 255, 255, 0.92); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; border-left: 4px solid #D4A373; text-align: center !important; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
         .gift-box.girl { border-color: #E29578; }
         .gift-box.boy { border-color: #83C5BE; }
 
         /* VOTACIÓN DINÁMICA */
-        .vote-box { background: rgba(255, 255, 255, 0.92); border-radius: 18px; padding: 18px; border: 1px solid #E6D7C3; text-align: left; }
+        .vote-box { background: rgba(255, 255, 255, 0.94); border-radius: 18px; padding: 18px; border: 1px solid #E6D7C3; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .bars-container { margin: 15px 0 20px 0; }
         .bar-group { margin-bottom: 12px; }
         .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px; color: #4A3525; }
@@ -155,7 +156,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .rsvp-card { background: rgba(255, 255, 255, 0.92); border-radius: 18px; padding: 18px; border: 2px dashed #8C6D53; text-align: center !important; }
+        .rsvp-card { background: rgba(255, 255, 255, 0.94); border-radius: 18px; padding: 18px; border: 2px dashed #8C6D53; text-align: center !important; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
 
         /* BOTÓN DE MÚSICA FLOTANTE */
         #music-control-button {
@@ -196,8 +197,7 @@
     <!-- PORTADA -->
     <section class="section">
         <span class="badge"><i class="fa-solid fa-heart"></i> ¡Estás Invitado!</span>
-        <h1>¡Hola mundo!<br>
-           ✨ Mi Baby Shower ✨</h1>
+        <h1>✨ ¡Hola mundo! Mi Baby Shower ✨</h1>
         <p>Una linda aventura está por comenzar y quiero celebrarla contigo desde antes de nacer.</p>
         <p style="margin-top: 8px;"><strong>Mis Papás: Luisa & Sebastián</strong></p>
     </section>
