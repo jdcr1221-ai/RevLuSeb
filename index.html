@@ -89,21 +89,19 @@
         .gift-box.girl { border-color: #E29578; }
         .gift-box.boy { border-color: #83C5BE; }
 
-        /* SECCIÓN DE VOTACIÓN Y BARRAS */
+        /* VOTACIÓN DINÁMICA */
         .vote-box { background: #FFFFFF; border-radius: 18px; padding: 18px; border: 1px solid #E6D7C3; text-align: left; }
-        
-        /* BARRAS HORIZONTALES */
         .bars-container { margin: 15px 0 20px 0; }
         .bar-group { margin-bottom: 12px; }
         .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px; color: #4A3525; }
-        .bar-bg { width: 100%; background: #F2EBE4; height: 16px; border-radius: 10px; overflow: hidden; position: relative; }
-        .bar-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+        .bar-bg { width: 100%; background: #F2EBE4; height: 16px; border-radius: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 10px; transition: width 0.6s ease; width: 0%; }
         
-        .bar-fill.girl { background: #E29578; width: 45%; } /* Rosa pastel soft */
-        .bar-fill.boy { background: #83C5BE; width: 35%; }  /* Azul verdoso pastel */
-        .bar-fill.undecided { background: #D4A373; width: 20%; } /* Beige/marrón dorado */
+        .bar-fill.girl { background: #E29578; }
+        .bar-fill.boy { background: #83C5BE; }
+        .bar-fill.undecided { background: #D4A373; }
 
-        /* FORMULARIO DE VOTACIÓN */
+        /* FORMULARIO */
         .form-group { margin-top: 12px; }
         label { font-size: 12px; font-weight: 700; color: #4A3525; display: block; margin-bottom: 4px; }
         input[type="text"], select { 
@@ -117,9 +115,37 @@
             color: #4A3525;
             margin-bottom: 10px;
         }
-        select:focus, input:focus { outline: none; border-color: #8C6D53; background: #FFFFFF; }
-        .submit-btn { width: 100%; background: #8C6D53; color: white; border: none; padding: 12px; border-radius: 20px; font-family: 'Fredoka', cursive; font-size: 15px; cursor: pointer; transition: background 0.3s; }
-        .submit-btn:hover { background: #6C523D; }
+        .submit-btn { width: 100%; background: #8C6D53; color: white; border: none; padding: 12px; border-radius: 20px; font-family: 'Fredoka', cursive; font-size: 15px; cursor: pointer; }
+
+        /* REVELACIÓN DE VOTOS (2 COLUMNAS) */
+        .votes-history-title { font-size: 14px; font-weight: 700; color: #4A3525; margin: 20px 0 10px 0; text-align: center; }
+        .votes-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            max-height: 250px; 
+            overflow-y: auto; 
+            padding-right: 4px;
+        }
+        .vote-card { 
+            background: #FAF6F0; 
+            border-radius: 12px; 
+            padding: 10px; 
+            border: 1px solid #E6D7C3; 
+            text-align: center;
+            font-size: 12px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .vote-card strong { display: block; color: #4A3525; font-weight: 700; }
+        .vote-card span { font-size: 11px; display: inline-block; margin-top: 2px; padding: 2px 8px; border-radius: 10px; color: white; font-weight: 600; }
+        .badge-girl { background: #E29578; }
+        .badge-boy { background: #83C5BE; }
+        .badge-undecided { background: #D4A373; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .rsvp-card { background: #FFFFFF; border-radius: 18px; padding: 18px; border: 2px dashed #8C6D53; text-align: center; }
     </style>
@@ -131,7 +157,7 @@
     <!-- PORTADA -->
     <section class="section">
         <span class="badge"><i class="fa-solid fa-heart"></i> ¡Estás Invitado!</span>
-        <h1>✨ ¡Hola mundo! Mi Baby Shower ✨</h1>
+        <h1>¡Hola mundo! Mi Baby Shower 🐰✨</h1>
         <p>Una linda aventura está por comenzar y quiero celebrarla contigo desde antes de nacer.</p>
         <p style="margin-top: 8px;"><strong>Mis Papás: Luisa & Sebastián</strong></p>
     </section>
@@ -170,7 +196,7 @@
                 <p>17:30 PM</p>
             </div>
             <div class="detail-card full">
-                <strong style="color:#D4A373;">💥 ¡GRAN REVELACIÓN!</strong>
+                <strong style="color:#D4A373;">💥 ¡GRAN SORPRESA AÉREA!</strong>
                 <p>19:00 PM Exactas con nuestro humo aéreo ✨ ¡Llega muy puntual!</p>
             </div>
             <div class="detail-card full">
@@ -198,61 +224,64 @@
         </div>
     </section>
 
-    <!-- VOTACIÓN CON BARRAS HORIZONTALES Y FORMULARIO -->
+    <!-- VOTACIÓN INTERACTIVA CON HISTORIAL EN 2 COLUMNAS -->
     <section class="section">
         <h2><i class="fa-solid fa-chart-simple"></i> ¿Qué crees que seré?</h2>
         <div class="vote-box">
             
-            <!-- BARRAS REPRESENTATIVAS -->
+            <!-- BARRAS DINÁMICAS -->
             <div class="bars-container">
-                <!-- Niña -->
                 <div class="bar-group">
                     <div class="bar-label">
                         <span>👧 Niña</span>
-                        <span>45%</span>
+                        <span id="percent-girl">0%</span>
                     </div>
                     <div class="bar-bg">
-                        <div class="bar-fill girl"></div>
+                        <div id="bar-girl" class="bar-fill girl"></div>
                     </div>
                 </div>
 
-                <!-- Niño -->
                 <div class="bar-group">
                     <div class="bar-label">
                         <span>👦 Niño</span>
-                        <span>35%</span>
+                        <span id="percent-boy">0%</span>
                     </div>
                     <div class="bar-bg">
-                        <div class="bar-fill boy"></div>
+                        <div id="bar-boy" class="bar-fill boy"></div>
                     </div>
                 </div>
 
-                <!-- Indeciso -->
                 <div class="bar-group">
                     <div class="bar-label">
                         <span>🤔 Indecis@</span>
-                        <span>20%</span>
+                        <span id="percent-undecided">0%</span>
                     </div>
                     <div class="bar-bg">
-                        <div class="bar-fill undecided"></div>
+                        <div id="bar-undecided" class="bar-fill undecided"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- CAJÓN DE REGISTRO DE VOTO -->
+            <!-- FORMULARIO -->
             <div class="form-group">
-                <label>Tu Nombre:</label>
-                <input type="text" placeholder="Ej: María Pérez">
+                <label for="userName">Tu Nombre:</label>
+                <input type="text" id="userName" placeholder="Ej: María Pérez">
 
-                <label>Tu Elección / Predicción:</label>
-                <select>
+                <label for="userChoice">Tu Elección / Predicción:</label>
+                <select id="userChoice">
                     <option value="" disabled selected>Selecciona tu opción...</option>
                     <option value="girl">👧 ¡Es Niña!</option>
                     <option value="boy">👦 ¡Es Niño!</option>
                     <option value="undecided">🤔 Estoy Indecis@</option>
                 </select>
 
-                <button class="submit-btn">Registrar mi Voto 🗳️</button>
+                <button class="submit-btn" onclick="submitVote()">Registrar mi Voto 🗳️</button>
+            </div>
+
+            <!-- HISTORIAL EN 2 COLUMNAS -->
+            <div class="votes-history-title">🗳️ Votos Registrados:</div>
+            <div id="votesGrid" class="votes-grid">
+                <!-- Se irán apilando los cajones aquí -->
             </div>
 
         </div>
@@ -267,6 +296,84 @@
     </section>
 
 </div>
+
+<!-- SCRIPT LÓGICO DE INTERACCIÓN -->
+<script>
+    let votes = {
+        girl: 0,
+        boy: 0,
+        undecided: 0
+    };
+
+    function updateBars() {
+        let total = votes.girl + votes.boy + votes.undecided;
+        
+        let pGirl = total > 0 ? Math.round((votes.girl / total) * 100) : 0;
+        let pBoy = total > 0 ? Math.round((votes.boy / total) * 100) : 0;
+        let pUndecided = total > 0 ? Math.round((votes.undecided / total) * 100) : 0;
+
+        document.getElementById('bar-girl').style.width = pGirl + '%';
+        document.getElementById('percent-girl').innerText = pGirl + '%';
+
+        document.getElementById('bar-boy').style.width = pBoy + '%';
+        document.getElementById('percent-boy').innerText = pBoy + '%';
+
+        document.getElementById('bar-undecided').style.width = pUndecided + '%';
+        document.getElementById('percent-undecided').innerText = pUndecided + '%';
+    }
+
+    function submitVote() {
+        let nameInput = document.getElementById('userName');
+        let choiceInput = document.getElementById('userChoice');
+
+        let name = nameInput.value.trim();
+        let choice = choiceInput.value;
+
+        if (!name) {
+            alert('Por favor, ingresa tu nombre.');
+            return;
+        }
+        if (!choice) {
+            alert('Por favor, selecciona una opción.');
+            return;
+        }
+
+        // Incrementar recuento
+        votes[choice]++;
+        updateBars();
+
+        // Generar tarjeta en la cuadrícula de 2 columnas
+        let grid = document.getElementById('votesGrid');
+        let card = document.createElement('div');
+        card.className = 'vote-card';
+
+        let badgeClass = '';
+        let choiceText = '';
+
+        if (choice === 'girl') {
+            badgeClass = 'badge-girl';
+            choiceText = '👧 Niña';
+        } else if (choice === 'boy') {
+            badgeClass = 'badge-boy';
+            choiceText = '👦 Niño';
+        } else {
+            badgeClass = 'badge-undecided';
+            choiceText = '🤔 Indecis@';
+        }
+
+        card.innerHTML = `<strong>${name}</strong><span class="${badgeClass}">${choiceText}</span>`;
+        
+        // Agregar al inicio del contenedor
+        grid.insertBefore(card, grid.firstChild);
+
+        // Limpiar campos
+        nameInput.value = '';
+        choiceChoiceSelect = choiceInput.selectedIndex = 0;
+    }
+
+    // Inicializar barras en 0%
+    updateBars();
+</script>
 
 </body>
 </html>
