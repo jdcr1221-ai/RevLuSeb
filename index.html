@@ -22,7 +22,7 @@
             padding: 30px 15px;
         }
 
-        /* TARJETA PRINCIPAL CON MAYOR TRANSPARENCIA PARA VER LOS CONEJITOS */
+        /* TARJETA PRINCIPAL CON TRANSPARENCIA PARA VER LOS CONEJITOS DEL FONDO */
         .mobile-card {
             width: 100%;
             max-width: 420px;
@@ -376,7 +376,7 @@
             <!-- HISTORIAL EN 2 COLUMNAS -->
             <div class="votes-history-title">🗳️ Votos Registrados:</div>
             <div id="votesGrid" class="votes-grid">
-                <!-- Se apilarán los votos aquí -->
+                <!-- Se apilarán los votos en vivo desde Firebase -->
             </div>
 
         </div>
@@ -392,10 +392,10 @@
 
             <div class="whatsapp-buttons">
                 <a href="https://wa.me/34600735254?text=%C2%A1Hola%20Luisa!%20Quiero%20confirmar%20mi%20asistencia%20para%20la%20revelaci%C3%B3n%20de%20g%C3%A9nero.%20%E2%9C%A8" target="_blank" class="ws-btn mother">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Confirmar con Luisa
+                    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Confirmar con mi Mami
                 </a>
                 <a href="https://wa.me/34654955837?text=%C2%A1Hola%20Sebasti%C3%A1n!%20Quiero%20confirmar%20mi%20asistencia%20para%20la%20revelaci%C3%B3n%20de%20g%C3%A9nero.%20%E2%9C%A8" target="_blank" class="ws-btn father">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Confirmar con Sebastián
+                    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Confirmar con mi Papi
                 </a>
             </div>
         </div>
@@ -403,7 +403,28 @@
 
 </div>
 
+<!-- LIBRERÍAS DE FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
 <script>
+    // CONFIGURACIÓN DE TU PROYECTO FIREBASE
+    const firebaseConfig = {
+        apiKey: "AIzaSyBmqNJTjMYVOl2gIw8QoqTo0joKEkIf2zE",
+        authDomain: "revluseb.firebaseapp.com",
+        databaseURL: "https://revluseb-default-rtdb.firebaseio.com",
+        projectId: "revluseb",
+        storageBucket: "revluseb.firebasestorage.app",
+        messagingSenderId: "14343324460",
+        appId: "1:14343324460:web:047a757647c9661e58a289",
+        measurementId: "G-W6DY6RJVC5"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const votesRef = db.ref('votos');
+
     // LÓGICA DE MÚSICA
     function toggleMusic() {
         let music = document.getElementById('bgMusic');
@@ -424,19 +445,40 @@
         }
     }
 
-    // LÓGICA DE VOTACIÓN
-    let votes = {
-        girl: 0,
-        boy: 0,
-        undecided: 0
-    };
-
-    function updateBars() {
-        let total = votes.girl + votes.boy + votes.undecided;
+    // ESCUCHAR Y ACTUALIZAR VOTOS EN TIEMPO REAL
+    votesRef.on('value', (snapshot) => {
+        const data = snapshot.val() || {};
         
-        let pGirl = total > 0 ? Math.round((votes.girl / total) * 100) : 0;
-        let pBoy = total > 0 ? Math.round((votes.boy / total) * 100) : 0;
-        let pUndecided = total > 0 ? Math.round((votes.undecided / total) * 100) : 0;
+        let countGirl = 0;
+        let countBoy = 0;
+        let countUndecided = 0;
+
+        let grid = document.getElementById('votesGrid');
+        grid.innerHTML = ''; 
+
+        // Mostrar del voto más reciente al más antiguo
+        const votesArray = Object.values(data).reverse();
+
+        votesArray.forEach(item => {
+            if (item.choice === 'girl') countGirl++;
+            if (item.choice === 'boy') countBoy++;
+            if (item.choice === 'undecided') countUndecided++;
+
+            let card = document.createElement('div');
+            card.className = 'vote-card';
+
+            let badgeClass = item.choice === 'girl' ? 'badge-girl' : (item.choice === 'boy' ? 'badge-boy' : 'badge-undecided');
+            let choiceText = item.choice === 'girl' ? '👧 Niña' : (item.choice === 'boy' ? '👦 Niño' : '🤔 Indecis@');
+
+            card.innerHTML = `<strong>${item.name}</strong><span class="${badgeClass}">${choiceText}</span>`;
+            grid.appendChild(card);
+        });
+
+        // Recalcular porcentajes
+        let total = countGirl + countBoy + countUndecided;
+        let pGirl = total > 0 ? Math.round((countGirl / total) * 100) : 0;
+        let pBoy = total > 0 ? Math.round((countBoy / total) * 100) : 0;
+        let pUndecided = total > 0 ? Math.round((countUndecided / total) * 100) : 0;
 
         document.getElementById('bar-girl').style.width = pGirl + '%';
         document.getElementById('percent-girl').innerText = pGirl + '%';
@@ -446,8 +488,9 @@
 
         document.getElementById('bar-undecided').style.width = pUndecided + '%';
         document.getElementById('percent-undecided').innerText = pUndecided + '%';
-    }
+    });
 
+    // REGISTRAR VOTO EN LA NUBE
     function submitVote() {
         let nameInput = document.getElementById('userName');
         let choiceInput = document.getElementById('userChoice');
@@ -464,36 +507,16 @@
             return;
         }
 
-        votes[choice]++;
-        updateBars();
-
-        let grid = document.getElementById('votesGrid');
-        let card = document.createElement('div');
-        card.className = 'vote-card';
-
-        let badgeClass = '';
-        let choiceText = '';
-
-        if (choice === 'girl') {
-            badgeClass = 'badge-girl';
-            choiceText = '👧 Niña';
-        } else if (choice === 'boy') {
-            badgeClass = 'badge-boy';
-            choiceText = '👦 Niño';
-        } else {
-            badgeClass = 'badge-undecided';
-            choiceText = '🤔 Indecis@';
-        }
-
-        card.innerHTML = `<strong>${name}</strong><span class="${badgeClass}">${choiceText}</span>`;
-        
-        grid.insertBefore(card, grid.firstChild);
+        // Guardar voto
+        votesRef.push({
+            name: name,
+            choice: choice,
+            timestamp: Date.now()
+        });
 
         nameInput.value = '';
         choiceInput.selectedIndex = 0;
     }
-
-    updateBars();
 </script>
 
 </body>
